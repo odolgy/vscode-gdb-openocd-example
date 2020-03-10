@@ -1,0 +1,73 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "flash",
+            "type": "shell",
+            "command": "openocd",
+            "args": [
+                "-f",
+                "interface/stlink-v2.cfg",
+                "-f",
+                "target/stm32f0x.cfg",
+                "-c",
+                "\"adapter_khz 4000\"",
+                "-c",
+                "\"reset_config none\"",
+                "-c",
+                "\"init\"",
+                "-c",
+                "\"reset halt\"",
+                "-c",
+                "\"flash write_image erase build/target.hex\"",
+                "-c",
+                "\"reset run\"",
+                "-c",
+                "\"shutdown\""
+            ]
+        },
+        {
+            "label": "openocd start",
+            "type": "shell",
+            "command": "openocd",
+            "args": [
+                "-f",
+                "interface/stlink-v2.cfg",
+                "-f",
+                "target/stm32f0x.cfg",
+                "-c",
+                "\"adapter_khz 4000\"",
+                "-c",
+                "\"reset_config none\"",
+                "-c",
+                "\"init\"",
+                "-c",
+                "\"reset halt\""
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    // Uncomment this message if you want to see OpenOCD output in "Problems" window
+                    // "regexp": "^(Info |Warn |Error):(.*)$",
+                    "regexp": ".",
+                    "severity": 1,
+                    "message": 2
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^Open On-Chip Debugger.*",
+                    "endsPattern": ".*watchpoints.*"
+                }
+            }
+        },
+        {
+            "label": "openocd stop",
+            "type": "shell",
+            "linux": {
+                "command": "kill `pidof openocd`"
+            }
+        }
+    ]
+}
