@@ -1,0 +1,57 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "OpenOCD Debug",
+            "type": "cppdbg",
+            "preLaunchTask": "openocd start",
+            "postDebugTask": "openocd stop",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "enter program name, for example ${workspaceFolder}/build/target.elf",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Connect to OpenOCD",
+                    "text": "target remote localhost:3333",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Halt",
+                    "text": "monitor reset halt",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "set remote hardware-breakpoint-limit 4",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "set remote hardware-watchpoint-limit 2",
+                    "ignoreFailures": false
+                } //,
+                // Uncomment the commands below if you want OpenOCD to update the device firmware before debugging
+                // {
+                //     "text": "cd ${workspaceFolder}"
+                // },
+                // {
+                //     "text": "file build/target.elf",
+                //     "description": "Set executable for firmware update",
+                //     "ignoreFailures": false
+                // },
+                // {
+                //     "text": "load",
+                //     "description": "Load firmware to remote MCU",
+                //     "ignoreFailures": false
+                // }
+            ],
+            "linux": {
+                "miDebuggerPath": "/usr/local/gcc-arm-none-eabi-9-2019-q4-major/bin/arm-none-eabi-gdb"
+            }
+        }
+    ]
+}
